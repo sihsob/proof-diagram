@@ -22,9 +22,36 @@ class Rules(object):
                     return True
                 else: return False
 
+    # TODO: Add a check to make sure that only subproofs are used as references
+    #       other than first line of reference
+    # TODO: Improve check for orElim
     def orElim(logic_val, reference):
         #evaluate logic_val for proper use of orElim
-        return False
+        orComp = reference[0].split(str=" | ")
+        for val in orComp:
+            # If any of these or components do not have an accompanying subproof,
+            # then return False
+            # Not a very good check, so should fix
+            if val in reference == False:
+                return False
+
+        conclusion = reference[2]
+
+        if logic_val != conclusion:
+            return False
+
+        i = 0
+        # Check the conclusion of every subproof and make sure they are the same
+        for val in reference:
+            if i == 0:
+                continue
+            if (i % 3) == 0:
+                if val != conclusion:
+                    return False
+            else: i + 1
+
+
+        return True
 
     def andIntro(logic_val, reference):
         for val in reference:

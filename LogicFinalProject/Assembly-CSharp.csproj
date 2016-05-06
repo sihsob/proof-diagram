@@ -45,9 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Arrow_Script.cs" />
      <Compile Include="Assets\Scripts\GameController_Script.cs" />
+     <Compile Include="Assets\Scripts\Input_Script.cs" />
      <Compile Include="Assets\Scripts\ProofBubble_Script.cs" />
-     <Compile Include="Assets\Scripts\Proof_Script.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class ProofBubble_Script : MonoBehaviour {
 
 	//public variables
+	public int label;
+	public string sentence;
+	public string justification;
+	public List<string> references;
 
 	//private variables
 
 	//position variables
 	Vector3 screenPoint;
 	Vector3 offset;
-	Proof_Script proof;
 	bool verified;
 //	bool active;
 
@@ -24,7 +28,7 @@ public class ProofBubble_Script : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		proof = GetComponent<Proof_Script>();
+
 		verified = false;
 	//	active = false;
 
@@ -33,17 +37,26 @@ public class ProofBubble_Script : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetMouseButtonDown(0))
+	/*	if(!gc.getAddArrowMode())
 		{
-			gc.setActiveNode(this);
-			gc.clearReasons();
-			Debug.Log("Active Node: " + proof.getJustification());
+			if(Input.GetMouseButtonDown(0))
+			{
+				gc.setActiveNode(gameObject);
+				gc.clearReasons();
+			}
+			else if(Input.GetMouseButtonDown(1))
+			{
+				gc.addReasons(gameObject);
+			}			
 		}
-		else if(Input.GetMouseButtonDown(1))
+		else
 		{
-			gc.addReasons(this);
-			Debug.Log("Reason: " + proof.getJustification());
-		}
+			//Debug.Log("Entered add arrow mode");
+			if(Input.GetMouseButtonDown(0))
+			{
+				gc.addPoint(gameObject);
+			}
+		}*/
 	}
 	
 	//------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -51,10 +64,32 @@ public class ProofBubble_Script : MonoBehaviour {
 	//when mouse button is pressed down
 	void OnMouseDown()
 	{
+		if(!gc.getAddArrowMode())
+		{
+			if(Input.GetMouseButtonDown(0))
+			{
+				gc.setActiveNode(gameObject);
+				gc.clearReasons();
+			}
+			else if(Input.GetMouseButtonDown(1))
+			{
+				gc.addReasons(gameObject);
+			}			
+		}
+		else
+		{
+			//Debug.Log("Entered add arrow mode");
+			if(Input.GetMouseButtonDown(0))
+			{
+				gc.addPoint(gameObject);
+			}
+		}
+		/*
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+		*/
 	}
-
+/*
 	//when mouse is dragged around screen
 	void OnMouseDrag()
 	{
@@ -62,20 +97,48 @@ public class ProofBubble_Script : MonoBehaviour {
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenPoint);
 		transform.position = currentPosition;
 	}
-	
-	//================================================================================================================================
+*/
+	//========================================================================================================================================================
 	//Programmer defined functions
 
-	public void setProofVars(ProofBubble_Script obj)
+	void toJson()
 	{
-		proof.setLabel(obj.getProof().getLabel());
-		proof.setSentence(obj.getProof().getSentence());
-		proof.setJustification(obj.getProof().getJustification());
-		proof.setReferences(obj.getProof().getReferences());
+		string json = JsonUtility.ToJson(this);
 	}
-	
-	Proof_Script getProof()
+
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------
+	//set functions
+
+	public void setLabel(int l)
 	{
-		return proof;
+		label = l;
+	}
+
+	public void setSentence(string s)
+	{
+		sentence = s;
+	}
+
+	public void setJustification(string s)
+	{
+		justification = s;
+	}
+
+	public void addReference(string r)
+	{
+		if(!references.Contains(r))
+		{
+			references.Add(r);
+		}
+	}
+
+	//functions for testing
+	public void printReferences()
+	{
+		Debug.Log("For node: " + label);
+		foreach(string s in references)
+		{
+			Debug.Log(s);
+		}
 	}
 }

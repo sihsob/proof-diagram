@@ -18,6 +18,10 @@ public class ProofBubble_Script : MonoBehaviour {
 	Vector3 screenPoint;
 	Vector3 offset;
 	bool verified;
+	bool incomingArrow;
+	bool subproof;
+
+	List<GameObject> references;
 
 	//other variables
 	PhysicMaterial current;
@@ -34,6 +38,9 @@ public class ProofBubble_Script : MonoBehaviour {
 
 		gc = GameObject.Find("GameController").GetComponent<GameController_Script>();
 		reference = new List<string>();
+		references = new List<GameObject>();
+		incomingArrow = false;
+		subproof = false;
 	}
 	
 	// Update is called once per frame
@@ -52,10 +59,6 @@ public class ProofBubble_Script : MonoBehaviour {
 				gc.setActiveNode(gameObject);
 				gc.clearReasons();
 			}
-			else if(Input.GetMouseButtonDown(1))
-			{
-				gc.addReasons(gameObject);
-			}			
 		}
 		else
 		{
@@ -72,13 +75,13 @@ public class ProofBubble_Script : MonoBehaviour {
 	public void toJson()
 	{
 		string json = JsonUtility.ToJson(this);
-		Debug.Log(json);
+		//Debug.Log(json);
 		StartCoroutine("connect", json);
 	}
 
 	IEnumerator connect(string js)
 	{
-		string url = "http://129.161.89.167:5000";
+		string url = "http://129.161.202.169:5000";
 
 		Dictionary<string, string> d= new Dictionary<string, string>();
 		d.Add("Content-Type", "application/json");
@@ -91,9 +94,18 @@ public class ProofBubble_Script : MonoBehaviour {
 		if(request.error == null)
 		{
 			string s = request.text;
+			//Debug.Log(s);
 			if(s.Contains("true"))
 				Debug.Log("yay");
 		}
+		else{
+			Debug.Log(request.error);
+		}
+	}
+
+	public void subProofReference(string end)
+	{
+		reference.Add(sentence + " -> " + end);
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -114,17 +126,46 @@ public class ProofBubble_Script : MonoBehaviour {
 		justification = s;
 	}
 
-	public void addReference(string r)
+	public void addReference(GameObject r)
 	{
-		if(!reference.Contains(r))
+		if(!references.Contains(r))
 		{
-			reference.Add(r);
+			references.Add(r);
+			reference.Add(r.GetComponent<ProofBubble_Script>().sentence);
+			Debug.Log(r.GetComponent<ProofBubble_Script>().sentence);
 		}
 	}
 
 	public void setVerified()
 	{
 		verified = true;
+	}
+
+	public void setHasIncoming()
+	{
+		incomingArrow = true;
+	}
+
+	public void setAsSubproof()
+	{
+		subproof = true;
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// get functions
+	public string getSentence()
+	{
+		return sentence;
+	}
+
+	public bool hasIncoming()
+	{
+		return incomingArrow;
+	}
+
+	public bool isSubproof()
+	{
+		return subproof;
 	}
 
 	//functions for testing

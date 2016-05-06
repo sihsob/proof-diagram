@@ -6,9 +6,11 @@ public class GameController_Script : MonoBehaviour {
 
 	//public variables
 	public GameObject proofBubble;
+	public GameObject subproofBubble;
 	public GameObject arrow;
 	public GameObject input_canvas;
 	public GameObject activeAdd;
+	public GameObject activeSubproof;
 
 	//private variables
 	GameObject activeNode;
@@ -20,6 +22,7 @@ public class GameController_Script : MonoBehaviour {
 	int points_index;
 	bool addArrows;
 	bool inSubproof;
+	int subproofBegin_index;
 	int subproof_index;
 	int index;
 
@@ -42,9 +45,11 @@ public class GameController_Script : MonoBehaviour {
 		inSubproof = false;
 		subproof_index = 0;
 		index = 0;
+		subproofBegin_index = 0;
 
 		input_canvas.SetActive(false);
 		activeAdd.SetActive(false);
+		activeSubproof.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -53,6 +58,10 @@ public class GameController_Script : MonoBehaviour {
 		{
 			GameObject newArrow = Instantiate(arrow);
 			newArrow.GetComponent<Arrow_Script>().scale(points[0].transform.position, points[1].transform.position);
+			points[1].GetComponent<ProofBubble_Script>().addReference(points[0]);
+			points[1].GetComponent<ProofBubble_Script>().setHasIncoming();
+			reasons.Add(points[0]);
+			arrows.Add(newArrow);
 		}
 	}
 
@@ -92,11 +101,12 @@ public class GameController_Script : MonoBehaviour {
 	public void setActiveNode(GameObject active)
 	{
 		activeNode = active;
+		Debug.Log("Active Node: " + activeNode.GetComponent<ProofBubble_Script>().getSentence());
 	}
 
 	public void addReasons(GameObject a_reason)
 	{
-		activeNode.GetComponent<ProofBubble_Script>().addReference(a_reason.GetComponent<ProofBubble_Script>().sentence);
+		activeNode.GetComponent<ProofBubble_Script>().addReference(a_reason);
 		reasons.Add(a_reason);
 	}
 
@@ -129,19 +139,41 @@ public class GameController_Script : MonoBehaviour {
 
 	public void startSubproof()
 	{
+		activeSubproof.SetActive(true);
 		inSubproof = true;
 		subproof_index = 1;
+		GameObject node = Instantiate(subproofBubble);
+
+		if(all_Nodes.Count != 0)
+		{
+			GameObject previous = all_Nodes[all_Nodes.Count-1];
+			node.transform.position =  new Vector3(previous.transform.position.x, previous.transform.position.y - 4, previous.transform.position.z);
+		}
+
+		subproofBegin_index = index;
+		index++;
+		all_Nodes.Add(node);
 	}
 
 	public void endSubproof()
 	{
+		string s = all_Nodes[all_Nodes.Count-1].GetComponent<ProofBubble_Script>().sentence;
+		all_Nodes[subproofBegin_index].GetComponent<ProofBubble_Script>().subProofReference(s);
+
+		activeSubproof.SetActive(false);
 		inSubproof = false;
 		subproof_index = 0;
 	}
 
 	public void verify()
 	{
-		activeNode.GetComponent<ProofBubble_Script>().toJson();
+		if(!addArrows && !inSubproof)
+		{
+			if(activeNode.GetComponent<ProofBubble_Script>().hasIncoming() || activeNode.GetComponent<ProofBubble_Script>().isSubproof())
+			{
+				activeNode.GetComponent<ProofBubble_Script>().toJson();
+			}
+		}
 	}
 
 	public void nextStep()

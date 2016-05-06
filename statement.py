@@ -61,9 +61,21 @@ def print_tree(tree, level=0):
         print "WARNING: could not understand tree type"
         assert False
 
-# Returns true if statement is in tree and false if not
-def contains(statement):
-    return False
+def getAllOrOperands(statement, ors):
+    if statement.value != '|':
+        ors.append(statement)
+        return ors
+
+    ors.append(statement.left)
+    return getAllOrOperands(statement.right, ors)
+
+def getAllAndOperands(statement, ands):
+    if statement.value != '&':
+        ands.append(statement)
+        return ands
+
+    ands.append(statement.left)
+    return getAllAndOperands(statement.right, ands)
 
 # Literal comparison
 def compareTree(tree1, tree2):

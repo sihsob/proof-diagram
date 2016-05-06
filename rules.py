@@ -13,21 +13,26 @@ def reit(logic_val, reference):
 
     return compareTree(logic_tree, ref_tree)
 
-# TODO: New orIntro should compare the logic_val tree to the reference tree if you
-# add on the new 'ored' part
 def orIntro(logic_val, reference):
-    raise RuntimeError
-    #if len(reference) > 1:
-    #    return False
+    if len(reference) > 1:
+        return False
 
-    #logic_tree = parse_sentence(logic_val)
-    #ref_tree = parse_sentence(reference[0])
-    #temp_tree = logic_val
+    logic_tree = parse_sentence(logic_val)
+    ref_tree = parse_sentence(reference[0])
+    temp_tree = logic_tree
 
+    # TODO
     #while isinstance(temp_tree, BinaryStatement):
     #    if not temp_tree.value == '|':
     #        return False
     #    temp_tree = temp_tree.left
+
+    ors = getAllOrOperands(logic_tree, [])
+    for i in ors:
+        print_tree(i)
+        if compareTree(i, ref_tree) == True:
+            return True
+    return False
 
 # TODO: Check all subproof trees and make sure they all have the same tree
 # structure with conclusion and then make sure that conclusion is the same
@@ -43,7 +48,24 @@ def andIntro(logic_val, reference):
 # TODO: Make sure that all high level parts of reference is separated by
 # ands and then make sure that logic_val is in the reference parse tree
 def andElim(logic_val, reference):
-    raise RuntimeError
+    if len(reference) > 1:
+        return False
+
+    logic_tree = parse_sentence(logic_val)
+    ref_tree = parse_sentence(reference[0])
+    temp_tree = ref_tree
+
+    # TODO
+    #while isinstance(temp_tree, BinaryStatement):
+    #    if not temp_tree.value == '|':
+    #        return False
+    #    temp_tree = temp_tree.left
+
+    ands = getAllAndOperands(ref_tree, [])
+    for i in ands:
+        if compareTree(i, logic_tree) == True:
+            return True
+    return False
 
 def notIntro(logic_val, reference):
     if len(reference) > 1:

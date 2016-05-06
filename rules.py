@@ -40,13 +40,27 @@ def orIntro(logic_val, reference):
 def orElim(logic_val, reference):
     raise RuntimeError
 
-# TODO: Make sure that all the reference lines selected are all anded in
-# the parse tree
 def andIntro(logic_val, reference):
-    raise RuntimeError
+    print len(reference)
+    if len(reference) == 0:
+        return False
 
-# TODO: Make sure that all high level parts of reference is separated by
-# ands and then make sure that logic_val is in the reference parse tree
+    logic_tree = parse_sentence(logic_val)
+    refs = []
+    for i in reference:
+        refs.append(parse_sentence(i))
+
+    # TODO: Make sure all top level are ands
+
+    ands = getAllAndOperands(logic_tree, [])
+    for i in ands:
+        for j in refs:
+            if compareTree(i, j) == True:
+                break
+        else:
+            return False
+    return True
+
 def andElim(logic_val, reference):
     if len(reference) > 1:
         return False

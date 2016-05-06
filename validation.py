@@ -3,7 +3,7 @@ from rules import *
 
 def validate(parsed_j):
     print parsed_j
-    
+
     line_num = parsed_j['label']
     logic_val = parsed_j['sentence']
     reason = parsed_j['justification']
@@ -25,7 +25,7 @@ def validate(parsed_j):
         "BI E" : biElim
     }
 
-    if len(reference) == 0:
+    if len(reference) == 0 and reason == "":
         return { "result": True }
     else:
         try:

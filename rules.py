@@ -24,7 +24,7 @@ def orIntro(logic_val, reference):
     #ref_tree = parse_sentence(reference[0])
     #temp_tree = logic_val
 
-    #while not isinstance(temp_tree, IdStatement):
+    #while isinstance(temp_tree, BinaryStatement):
     #    if not temp_tree.value == '|':
     #        return False
     #    temp_tree = temp_tree.left

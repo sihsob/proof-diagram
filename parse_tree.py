@@ -41,8 +41,6 @@ def t_error(t):
 import ply.lex as lex
 lexer = lex.lex()
 
-# TODO: link up to validate and rules to actually check rules
-
 # Grammar
 # S: ! | E
 # E: A -> E | A -> ! | A <--> E | A

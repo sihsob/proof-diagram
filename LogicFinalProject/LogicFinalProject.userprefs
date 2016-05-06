@@ -1,19 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ProofBubble_Script.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameController_Script.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameController_Script.cs" Line="68" Column="3" />
-      <File FileName="Assets\Scripts\Arrow_Script.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameController_Script.cs" Line="107" Column="13" />
+      <File FileName="Assets\Scripts\Arrow_Script.cs" Line="4" Column="44" />
       <File FileName="Assets\Scripts\Input_Script.cs" Line="19" Column="61" />
-      <File FileName="Assets\Scripts\ProofBubble_Script.cs" Line="94" Column="26" />
+      <File FileName="Assets\Scripts\ProofBubble_Script.cs" Line="97" Column="6" />
       <File FileName="..\..\RGS2015\Race_to_RGS\Game\Assets\Scripts\PauseScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CameraDrag_Script.cs" Line="10" Column="4" />
+      <File FileName="Assets\Scripts\CameraDrag_Script.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <RunToCursorBreakpoint file="C:\Users\Aoi3\Documents\GitHub\proof-diagram\LogicFinalProject\Assets\Scripts\ProofBubble_Script.cs" line="120" column="3" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

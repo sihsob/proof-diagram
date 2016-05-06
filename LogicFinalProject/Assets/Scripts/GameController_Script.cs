@@ -7,6 +7,8 @@ public class GameController_Script : MonoBehaviour {
 	//public variables
 	public GameObject proofBubble;
 	public GameObject arrow;
+	public GameObject input_canvas;
+	public GameObject activeAdd;
 
 	//private variables
 	GameObject activeNode;
@@ -17,6 +19,9 @@ public class GameController_Script : MonoBehaviour {
 	GameObject []points;
 	int points_index;
 	bool addArrows;
+	bool inSubproof;
+	int subproof_index;
+	int index;
 
 	//===========================================================================================================================================
 
@@ -33,6 +38,13 @@ public class GameController_Script : MonoBehaviour {
 			points[i] = null;
 		}
 		points_index = 0;
+
+		inSubproof = false;
+		subproof_index = 0;
+		index = 0;
+
+		input_canvas.SetActive(false);
+		activeAdd.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -49,6 +61,11 @@ public class GameController_Script : MonoBehaviour {
 
 	public void newNode(string sentence, string justification)
 	{
+		if(justification == "PREMISE")
+		{
+			justification = "";
+		}
+
 		GameObject node = Instantiate(proofBubble);
 
 		node.GetComponent<ProofBubble_Script>().setSentence(sentence);
@@ -58,10 +75,18 @@ public class GameController_Script : MonoBehaviour {
 		if(all_Nodes.Count != 0)
 		{
 			GameObject previous = all_Nodes[all_Nodes.Count-1];
-			node.transform.position =  new Vector3(previous.transform.position.x, previous.transform.position.y + 10, previous.transform.position.z);
+			node.transform.position =  new Vector3(previous.transform.position.x, previous.transform.position.y - 4, previous.transform.position.z);
+		}
+
+		index++;
+
+		if(inSubproof)
+		{
+			subproof_index++;
 		}
 
 		all_Nodes.Add(node);
+		input_canvas.SetActive(false);
 	}
 
 	public void setActiveNode(GameObject active)
@@ -83,6 +108,7 @@ public class GameController_Script : MonoBehaviour {
 	public void addArrowMode()
 	{
 		addArrows = !addArrows;
+		activeAdd.SetActive(!activeAdd.activeInHierarchy);
 	}
 
 	public bool getAddArrowMode()
@@ -99,5 +125,27 @@ public class GameController_Script : MonoBehaviour {
 		{
 			points_index = 0;
 		}
+	}
+
+	public void startSubproof()
+	{
+		inSubproof = true;
+		subproof_index = 1;
+	}
+
+	public void endSubproof()
+	{
+		inSubproof = false;
+		subproof_index = 0;
+	}
+
+	public void verify()
+	{
+		activeNode.GetComponent<ProofBubble_Script>().toJson();
+	}
+
+	public void nextStep()
+	{
+		input_canvas.SetActive(true);
 	}
 }

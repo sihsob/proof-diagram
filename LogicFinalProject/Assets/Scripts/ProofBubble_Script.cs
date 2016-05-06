@@ -24,7 +24,8 @@ public class ProofBubble_Script : MonoBehaviour {
 	List<GameObject> references;
 
 	//other variables
-	PhysicMaterial current;
+	Material normal;
+	Material active;
 	GameController_Script gc;
 
 	//==============================================================================================================================
@@ -41,6 +42,9 @@ public class ProofBubble_Script : MonoBehaviour {
 		references = new List<GameObject>();
 		incomingArrow = false;
 		subproof = false;
+
+		normal = Resources.Load("Normal_mat", typeof(Material)) as Material;
+		active = Resources.Load("Active_mat", typeof(Material)) as Material;
 	}
 	
 	// Update is called once per frame
@@ -56,6 +60,7 @@ public class ProofBubble_Script : MonoBehaviour {
 		{
 			if(Input.GetMouseButtonDown(0))
 			{
+				gameObject.GetComponent<Renderer>().material = active;
 				gc.setActiveNode(gameObject);
 				gc.clearReasons();
 			}
@@ -176,5 +181,13 @@ public class ProofBubble_Script : MonoBehaviour {
 		{
 			Debug.Log(s);
 		}
+	}
+
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//other
+
+	public void setNormalMat()
+	{
+		gameObject.GetComponent<Renderer>().material = normal;	
 	}
 }

@@ -100,8 +100,12 @@ public class GameController_Script : MonoBehaviour {
 
 	public void setActiveNode(GameObject active)
 	{
+		if(activeNode != null)
+		{
+			activeNode.GetComponent<ProofBubble_Script>().setNormalMat();
+		}
+
 		activeNode = active;
-		Debug.Log("Active Node: " + activeNode.GetComponent<ProofBubble_Script>().getSentence());
 	}
 
 	public void addReasons(GameObject a_reason)

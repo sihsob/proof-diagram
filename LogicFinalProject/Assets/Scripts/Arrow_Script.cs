@@ -14,7 +14,7 @@ public class Arrow_Script : MonoBehaviour {
 		Vector3 relativePos = end - start;
 		float mag = relativePos.magnitude;
 
-		transform.localScale = new Vector3(mag/7, 0.7f, 0);
+		transform.localScale = new Vector3(mag/7, 0.5f, 0);
 
 		float angle = Mathf.Atan2(relativePos.y, relativePos.x) * Mathf.Rad2Deg - 360;
 		Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);

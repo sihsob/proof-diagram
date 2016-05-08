@@ -17,15 +17,17 @@ public class ProofBubble_Script : MonoBehaviour {
 	//position variables
 	Vector3 screenPoint;
 	Vector3 offset;
-	bool verified;
 	bool incomingArrow;
 	bool subproof;
+	bool correct;
 
 	List<GameObject> references;
+	int subproof_index;
 
 	//other variables
 	Material normal;
 	Material active;
+	Material verified;
 	GameController_Script gc;
 
 	//==============================================================================================================================
@@ -33,8 +35,6 @@ public class ProofBubble_Script : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-
-		verified = false;
 	//	active = false;
 
 		gc = GameObject.Find("GameController").GetComponent<GameController_Script>();
@@ -42,9 +42,12 @@ public class ProofBubble_Script : MonoBehaviour {
 		references = new List<GameObject>();
 		incomingArrow = false;
 		subproof = false;
+		correct =false;
+		subproof_index = -1;
 
 		normal = Resources.Load("Normal_mat", typeof(Material)) as Material;
 		active = Resources.Load("Active_mat", typeof(Material)) as Material;
+		verified = Resources.Load("Verified_mat", typeof(Material)) as Material;
 	}
 	
 	// Update is called once per frame
@@ -71,6 +74,10 @@ public class ProofBubble_Script : MonoBehaviour {
 			{
 				gc.addPoint(gameObject);
 			}
+			else if(Input.GetMouseButtonDown(1))
+			{
+				gc.resertPoints();
+			}
 		}
 	}
 
@@ -79,14 +86,21 @@ public class ProofBubble_Script : MonoBehaviour {
 
 	public void toJson()
 	{
+		//Debug.Log("index: " + subproof_index);
+		if(subproof_index != -1)
+		{
+			string rsn = gc.subproofSen(subproof_index);
+			reference.Add(rsn);
+		}
+
 		string json = JsonUtility.ToJson(this);
-		//Debug.Log(json);
-		StartCoroutine("connect", json);
+		Debug.Log(json);
+		//StartCoroutine("connect", json);
 	}
 
 	IEnumerator connect(string js)
 	{
-		string url = "http://129.161.202.169:5000";
+		string url = "http://129.161.80.95:5000";
 
 		Dictionary<string, string> d= new Dictionary<string, string>();
 		d.Add("Content-Type", "application/json");
@@ -101,7 +115,12 @@ public class ProofBubble_Script : MonoBehaviour {
 			string s = request.text;
 			//Debug.Log(s);
 			if(s.Contains("true"))
+			{
+				gameObject.GetComponent<Renderer>().material = verified;
+				correct = true;
 				Debug.Log("yay");
+			}
+				
 		}
 		else{
 			Debug.Log(request.error);
@@ -137,13 +156,8 @@ public class ProofBubble_Script : MonoBehaviour {
 		{
 			references.Add(r);
 			reference.Add(r.GetComponent<ProofBubble_Script>().sentence);
-			Debug.Log(r.GetComponent<ProofBubble_Script>().sentence);
+			//Debug.Log(r.GetComponent<ProofBubble_Script>().sentence);
 		}
-	}
-
-	public void setVerified()
-	{
-		verified = true;
 	}
 
 	public void setHasIncoming()
@@ -188,6 +202,14 @@ public class ProofBubble_Script : MonoBehaviour {
 
 	public void setNormalMat()
 	{
-		gameObject.GetComponent<Renderer>().material = normal;	
+		if(!correct)
+			gameObject.GetComponent<Renderer>().material = normal;	
+		else
+			gameObject.GetComponent<Renderer>().material = verified;
+	}
+
+	public void addIndex(int i)
+	{
+		subproof_index = i;
 	}
 }

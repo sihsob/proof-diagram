@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine.Experimental.Networking;
 
 [System.Serializable]
@@ -19,11 +20,13 @@ public class ProofBubble_Script : MonoBehaviour {
 	Vector3 offset;
 	bool isSubproof = false;
 
-	//other variables
+	//material variables
 	Material normal;
 	Material verified;
 	Material active;
 	Material subproof;
+
+	//other variables
 	GameController_Script gc;
 
 	//==============================================================================================================================
@@ -121,6 +124,7 @@ public class ProofBubble_Script : MonoBehaviour {
 	public void setJustification(string s)
 	{
 		justification = s;
+		Debug.Log("Justification: " + justification);
 	}
 
 	public void addReference(string r)
@@ -141,6 +145,21 @@ public class ProofBubble_Script : MonoBehaviour {
 	public bool IsSubproof()
 	{
 		return isSubproof;
+	}
+
+	public int getLabel()
+	{
+		return label;
+	}
+
+	public string getSentence()
+	{
+		return sentence;
+	}
+
+	public string getJustification()
+	{
+		return justification;
 	}
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------------------------

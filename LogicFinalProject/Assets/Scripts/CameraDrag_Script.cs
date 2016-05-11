@@ -38,7 +38,6 @@ public class CameraDrag_Script : MonoBehaviour {
 		float scroll = Input.GetAxis("Mouse ScrollWheel");
 		if(scroll < 0)
 		{
-			Debug.Log("less than 0");
 			if(Camera.main.orthographicSize <= maxZoom)
 			{
 				Camera.main.orthographicSize += zoomSpeed;
@@ -46,10 +45,8 @@ public class CameraDrag_Script : MonoBehaviour {
 		}
 		else if(scroll > 0)
 		{
-			Debug.Log("more than zero");
 			if(Camera.main.orthographicSize >= minZoom)
 			{
-				Debug.Log("change size");
 				Camera.main.orthographicSize -= zoomSpeed;
 			}
 		}

@@ -17,10 +17,12 @@ public class ProofBubble_Script : MonoBehaviour {
 	//position variables
 	Vector3 screenPoint;
 	Vector3 offset;
-	bool verified;
+	bool verfd;
 
 	//other variables
-	PhysicMaterial current;
+	Material normal;
+	Material verified;
+	Material active;
 	GameController_Script gc;
 
 	//==============================================================================================================================
@@ -29,11 +31,15 @@ public class ProofBubble_Script : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		verified = false;
+		verfd = false;
 	//	active = false;
 
 		gc = GameObject.Find("GameController").GetComponent<GameController_Script>();
 		reference = new List<string>();
+
+		normal = Resources.Load("Normal_mat", typeof(Material)) as Material;
+		verified = Resources.Load("Verified_mat", typeof(Material)) as Material;
+		active = Resources.Load("Active_mat", typeof(Material)) as Material;
 	}
 	
 	// Update is called once per frame
@@ -49,6 +55,7 @@ public class ProofBubble_Script : MonoBehaviour {
 		{
 			if(Input.GetMouseButtonDown(0))
 			{
+				GetComponent<Renderer>().material = active;
 				gc.setActiveNode(gameObject);
 				gc.clearReasons();
 			}
@@ -73,9 +80,10 @@ public class ProofBubble_Script : MonoBehaviour {
 	{
 		string json = JsonUtility.ToJson(this);
 		Debug.Log(json);
-		StartCoroutine("connect", json);
+		//StartCoroutine("connect", json);
 	}
 
+	//send info to verification program & get info back
 	IEnumerator connect(string js)
 	{
 		string url = "http://129.161.89.167:5000";
@@ -92,7 +100,10 @@ public class ProofBubble_Script : MonoBehaviour {
 		{
 			string s = request.text;
 			if(s.Contains("true"))
+			{
 				Debug.Log("yay");
+				GetComponent<Renderer>().material = verified;
+			}
 		}
 	}
 
@@ -124,7 +135,14 @@ public class ProofBubble_Script : MonoBehaviour {
 
 	public void setVerified()
 	{
-		verified = true;
+		verfd = true;
+	}
+
+	//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	public void deactivatedMat()
+	{
+		GetComponent<Renderer>().material = normal;
 	}
 
 	//functions for testing

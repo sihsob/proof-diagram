@@ -6,9 +6,11 @@ public class GameController_Script : MonoBehaviour {
 
 	//public variables
 	public GameObject proofBubble;
+	public GameObject subproof;
 	public GameObject arrow;
 	public GameObject input_canvas;
-	public GameObject activeAdd;
+	public GameObject activeAddarrows;
+	public GameObject activeSubproof;
 
 	//private variables
 	GameObject activeNode;
@@ -44,7 +46,8 @@ public class GameController_Script : MonoBehaviour {
 		index = 0;
 
 		input_canvas.SetActive(false);
-		activeAdd.SetActive(false);
+		activeAddarrows.SetActive(false);
+		activeSubproof.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -53,6 +56,7 @@ public class GameController_Script : MonoBehaviour {
 		{
 			GameObject newArrow = Instantiate(arrow);
 			newArrow.GetComponent<Arrow_Script>().scale(points[0].transform.position, points[1].transform.position);
+			points[1].GetComponent<ProofBubble_Script>().addReference(points[0].GetComponent<ProofBubble_Script>().sentence);
 		}
 	}
 
@@ -91,6 +95,11 @@ public class GameController_Script : MonoBehaviour {
 
 	public void setActiveNode(GameObject active)
 	{
+		if(activeNode != null)
+		{
+			activeNode.GetComponent<ProofBubble_Script>().deactivatedMat();	
+		}
+
 		activeNode = active;
 	}
 
@@ -108,7 +117,7 @@ public class GameController_Script : MonoBehaviour {
 	public void addArrowMode()
 	{
 		addArrows = !addArrows;
-		activeAdd.SetActive(!activeAdd.activeInHierarchy);
+		activeAddarrows.SetActive(!activeAddarrows.activeInHierarchy);
 	}
 
 	public bool getAddArrowMode()
@@ -130,12 +139,14 @@ public class GameController_Script : MonoBehaviour {
 	public void startSubproof()
 	{
 		inSubproof = true;
+		activeSubproof.SetActive(true);
 		subproof_index = 1;
 	}
 
 	public void endSubproof()
 	{
 		inSubproof = false;
+		activeSubproof.SetActive(false);
 		subproof_index = 0;
 	}
 

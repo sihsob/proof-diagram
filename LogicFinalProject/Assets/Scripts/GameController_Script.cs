@@ -23,7 +23,7 @@ public class GameController_Script : MonoBehaviour {
 	bool addArrows;
 	bool inSubproof;
 	int subproof_index;
-	int index;
+	int nodeCount;
 
 	//===========================================================================================================================================
 
@@ -43,7 +43,7 @@ public class GameController_Script : MonoBehaviour {
 
 		inSubproof = false;
 		subproof_index = 0;
-		index = 0;
+		nodeCount = 0;
 
 		input_canvas.SetActive(false);
 		activeAddarrows.SetActive(false);
@@ -79,10 +79,18 @@ public class GameController_Script : MonoBehaviour {
 		if(all_Nodes.Count != 0)
 		{
 			GameObject previous = all_Nodes[all_Nodes.Count-1];
-			node.transform.position =  new Vector3(previous.transform.position.x, previous.transform.position.y - 4, previous.transform.position.z);
+
+			if(previous.GetComponent<ProofBubble_Script>().IsSubproof())
+			{
+				node.transform.position = new Vector3(previous.transform.position.x-2, previous.transform.position.y+2, -0.74f);
+			}
+			else
+			{
+				node.transform.position =  new Vector3(previous.transform.position.x+2, previous.transform.position.y - 4, previous.transform.position.z);				
+			}
 		}
 
-		index++;
+		nodeCount++;
 
 		if(inSubproof)
 		{
@@ -106,7 +114,9 @@ public class GameController_Script : MonoBehaviour {
 	public void addReasons(GameObject a_reason)
 	{
 		activeNode.GetComponent<ProofBubble_Script>().addReference(a_reason.GetComponent<ProofBubble_Script>().sentence);
-		reasons.Add(a_reason);
+
+		if(!reasons.Contains(a_reason) && activeNode != a_reason)
+			reasons.Add(a_reason);
 	}
 
 	public void clearReasons()
@@ -140,13 +150,31 @@ public class GameController_Script : MonoBehaviour {
 	{
 		inSubproof = true;
 		activeSubproof.SetActive(true);
-		subproof_index = 1;
+
+		GameObject node = Instantiate(subproof);
+
+		if(all_Nodes.Count != 0)
+		{
+			GameObject previous = all_Nodes[all_Nodes.Count-1];
+			node.transform.position =  new Vector3(previous.transform.position.x, previous.transform.position.y - 6, previous.transform.position.z);
+		}
+
+		node.GetComponent<ProofBubble_Script>().setAsSubproof();
+
+		nodeCount++;
+		all_Nodes.Add(node);
 	}
 
 	public void endSubproof()
 	{
 		inSubproof = false;
 		activeSubproof.SetActive(false);
+
+		string sub_premise = all_Nodes[nodeCount-subproof_index].GetComponent<ProofBubble_Script>().sentence;
+		string sub_conclusion = all_Nodes[nodeCount-1].GetComponent<ProofBubble_Script>().sentence;
+	
+		all_Nodes[nodeCount-subproof_index-1].GetComponent<ProofBubble_Script>().sentence = sub_premise + "->" + sub_conclusion;
+
 		subproof_index = 0;
 	}
 

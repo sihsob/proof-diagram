@@ -5,6 +5,10 @@ public class CameraDrag_Script : MonoBehaviour {
 
 	//public variables
 	public float dragSpeed = 2f;
+	public float zoomSpeed = 2f;
+
+	public int maxZoom = 500;
+	public int minZoom = 100;
 
 	//private variables
 	//bool drag = false;
@@ -30,11 +34,21 @@ public class CameraDrag_Script : MonoBehaviour {
 			Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition) - origin;
 			transform.position = oldPos + -pos * dragSpeed;
 		}
-		/*
-		if(Input.GetMouseButtonUp(1))
+
+		float scroll = Input.GetAxis("Mouse ScrollWheel");
+		if(scroll < 0)
 		{
-			drag = false
+			if(Camera.main.orthographicSize <= maxZoom)
+			{
+				Camera.main.orthographicSize += zoomSpeed;
+			}
 		}
-*/
+		else if(scroll > 0)
+		{
+			if(Camera.main.orthographicSize >= minZoom)
+			{
+				Camera.main.orthographicSize -= zoomSpeed;
+			}
+		}
 	}
 }

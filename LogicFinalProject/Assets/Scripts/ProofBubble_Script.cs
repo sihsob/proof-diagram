@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine.Experimental.Networking;
 
 [System.Serializable]
@@ -17,12 +18,15 @@ public class ProofBubble_Script : MonoBehaviour {
 	//position variables
 	Vector3 screenPoint;
 	Vector3 offset;
-	bool verfd;
+	bool isSubproof = false;
 
-	//other variables
+	//material variables
 	Material normal;
 	Material verified;
 	Material active;
+	Material subproof;
+
+	//other variables
 	GameController_Script gc;
 
 	//==============================================================================================================================
@@ -30,16 +34,13 @@ public class ProofBubble_Script : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-
-		verfd = false;
-	//	active = false;
-
 		gc = GameObject.Find("GameController").GetComponent<GameController_Script>();
 		reference = new List<string>();
 
 		normal = Resources.Load("Normal_mat", typeof(Material)) as Material;
 		verified = Resources.Load("Verified_mat", typeof(Material)) as Material;
 		active = Resources.Load("Active_mat", typeof(Material)) as Material;
+		subproof = Resources.Load("SubProof_mat", typeof(Material)) as Material;
 	}
 	
 	// Update is called once per frame
@@ -123,6 +124,7 @@ public class ProofBubble_Script : MonoBehaviour {
 	public void setJustification(string s)
 	{
 		justification = s;
+		Debug.Log("Justification: " + justification);
 	}
 
 	public void addReference(string r)
@@ -133,16 +135,44 @@ public class ProofBubble_Script : MonoBehaviour {
 		}
 	}
 
-	public void setVerified()
+	public void setAsSubproof()
 	{
-		verfd = true;
+		isSubproof = true;
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//get functions
+	public bool IsSubproof()
+	{
+		return isSubproof;
+	}
 
+	public int getLabel()
+	{
+		return label;
+	}
+
+	public string getSentence()
+	{
+		return sentence;
+	}
+
+	public string getJustification()
+	{
+		return justification;
+	}
+
+	//-------------------------------------------------------------------------------------------------------------------------------------------------------------
 	public void deactivatedMat()
 	{
-		GetComponent<Renderer>().material = normal;
+		if(isSubproof)
+		{
+			GetComponent<Renderer>().material = subproof;
+		}
+		else
+		{
+			GetComponent<Renderer>().material = normal;
+		}
 	}
 
 	//functions for testing

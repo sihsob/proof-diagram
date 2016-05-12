@@ -1,5 +1,3 @@
-# TODO: overall high level check each function should do is make sure the root
-# of tree matches the rule
 from parse_tree import parse_sentence
 from statement import *
 import statement
@@ -21,7 +19,7 @@ def orIntro(logic_val, reference):
     ref_tree = parse_sentence(reference[0])
     temp_tree = logic_tree
 
-    # TODO
+    # TODO: Make sure all top level are ors
     #while isinstance(temp_tree, BinaryStatement):
     #    if not temp_tree.value == '|':
     #        return False
@@ -34,14 +32,30 @@ def orIntro(logic_val, reference):
             return True
     return False
 
-# TODO: Check all subproof trees and make sure they all have the same tree
-# structure with conclusion and then make sure that conclusion is the same
-# as logic_val
 def orElim(logic_val, reference):
-    raise RuntimeError
+    if len(reference) == 0:
+        return False
+
+    logic_tree = parse_sentence(logic_val)
+    ref_tree = parse_sentence(reference[0])
+    ors = getAllOrOperands(ref_tree, [])
+
+    #TODO: Make sure all top level are ors
+
+    for ref in reference[1:]:
+        ref_tree2 = parse_sentence(ref)
+        for i in ors:
+            if compareTree(ref_tree2.left, i) == True:
+                break
+        else: return False
+
+    for ref in reference[1:]:
+        ref_tree2 = parse_sentence(ref)
+        if compareTree(ref_tree2.right, logic_tree) == False:
+            return False
+    return True
 
 def andIntro(logic_val, reference):
-    print len(reference)
     if len(reference) == 0:
         return False
 
@@ -69,7 +83,7 @@ def andElim(logic_val, reference):
     ref_tree = parse_sentence(reference[0])
     temp_tree = ref_tree
 
-    # TODO
+    # TODO: Make sure all top level are ands
     #while isinstance(temp_tree, BinaryStatement):
     #    if not temp_tree.value == '|':
     #        return False

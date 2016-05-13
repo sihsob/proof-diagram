@@ -25,6 +25,7 @@ public class GameController_Script : MonoBehaviour {
 	int subproof_index;
 	int nodeCount;
 	int currentSubproof;
+	int mainLabelCount;
 
 	//===========================================================================================================================================
 
@@ -45,6 +46,7 @@ public class GameController_Script : MonoBehaviour {
 		inSubproof = false;
 		subproof_index = 0;
 		nodeCount = 0;
+		mainLabelCount = 0;
 
 		currentSubproof = -1;
 
@@ -78,7 +80,16 @@ public class GameController_Script : MonoBehaviour {
 
 		node.GetComponent<ProofBubble_Script>().setSentence(sentence);
 		node.GetComponent<ProofBubble_Script>().setJustification(justification);
-		node.GetComponent<ProofBubble_Script>().setLabel(nodeCount+1);
+
+		if(inSubproof)
+		{
+			node.GetComponent<ProofBubble_Script>().setLabel(subproof_index+1);
+		}
+		else
+		{
+			node.GetComponent<ProofBubble_Script>().setLabel(mainLabelCount+1);
+			mainLabelCount += 1;
+		}
 
 		if(all_Nodes.Count != 0)
 		{
@@ -90,21 +101,30 @@ public class GameController_Script : MonoBehaviour {
 			if(previous.GetComponent<ProofBubble_Script>().IsSubproof())
 			{
 				new_x = previous.transform.position.x-1f;
-				new_y = previous.transform.position.y+1f;
+				new_y = previous.transform.position.y+1.5f;
 			}
 			else
 			{
 				new_x = previous.transform.position.x + 2;
-				new_y = previous.transform.position.y - 4;			
+				new_y = previous.transform.position.y - 3;			
 			}
 
 			node.transform.position = new Vector3(new_x, new_y, 0);
 		}
 
 		nodeCount++;
-
 		if(inSubproof)
 		{
+			//resize subproof box if about to go out of the box
+			Vector3 maxBounds = all_Nodes[currentSubproof].GetComponent<BoxCollider2D>().bounds.max;
+			Vector3 bounds = all_Nodes[currentSubproof].transform.position + maxBounds;
+			Vector3 placedNode = node.transform.position + node.GetComponent<SpriteRenderer>().sprite.bounds.max;
+
+			if(placedNode.x > bounds.x)
+			{
+				resizeSubproof(all_Nodes[currentSubproof]);
+			}
+
 			subproof_index++;
 		}
 
@@ -172,8 +192,10 @@ public class GameController_Script : MonoBehaviour {
 		}
 
 		node.GetComponent<ProofBubble_Script>().setAsSubproof();
+		node.GetComponent<ProofBubble_Script>().setLabel(mainLabelCount+1);
 
 		nodeCount++;
+		mainLabelCount += 1;
 		all_Nodes.Add(node);
 
 		currentSubproof = all_Nodes.Count - 1;
@@ -227,6 +249,17 @@ public class GameController_Script : MonoBehaviour {
 		inSubproof = false;
 		nodeCount = 0;
 		currentSubproof = 0;
+		mainLabelCount = 0;
 		activeAddarrows.SetActive(false);
+	}
+
+	void resizeSubproof(GameObject target)
+	{
+		target.transform.localScale = new Vector3(1.5f*target.transform.localScale.x,1.5f*target.transform.localScale.y);
+
+		float moveX = target.transform.position.x + 1f;
+		float moveY = target.transform.position.y - 1.5f;
+
+		target.transform.position = new Vector3(moveX, moveY);
 	}
 }

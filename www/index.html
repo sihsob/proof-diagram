@@ -9,44 +9,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.25/paper-core.min.js"></script>
 </head>
 <body>
-    <!-- Fixed navbar -->
-     <nav class="navbar navbar-default navbar-fixed-top custom-navbar">
-       <div class="container">
-         <div class="navbar-header">
-           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-             <span class="sr-only">Toggle navigation</span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-             <span class="icon-bar"></span>
-           </button>
-           <a class="navbar-brand" href="index.html">Proof Diagram</a>
-         </div>
-         <div id="navbar" class="navbar-collapse collapse">
-             <div>
-                 <button id="btn-create-node">Create Node</button>
-                 <form id="create-refs">
-                     <select name="Inference Rule" id="inference-rule">
-                         <option value="REIT">Reiteration</option>
-                         <option value="OR I">Or Intro</option>
-                         <option value="OR E">Or Elim</option>
-                         <option value="AND I">And Intro</option>
-                         <option value="AND E">And Elim</option>
-                         <option value="NOT I">Not Intro</option>
-                         <option value="NOT E">Not Elim</option>
-                         <option value="CONTRA I">Contradiction Intro</option>
-                         <option value="CONTRA E">Contradiction Elim</option>
-                         <option value="IMP I">Implication Intro</option>
-                         <option value="IMP E">Implication Elim</option>
-                         <option value="BI I">Biconditional Intro</option>
-                         <option value="BI E">Biconditional Elim</option>
-                     </select>
-                     <input type="submit" value="Create References"/>
-                 </form>
-                 <button id="btn-attach-refs">Attach References</button>
-             </div>
-         </div><!--/.nav-collapse -->
-       </div>
-     </nav>
+    <div class="menuBar">
+        <div class="nav-title"
+            <a class="title" href="index.html">Proof Diagram</a>
+        </div>
+        <div class="nav-block">
+            <button class="btn btn-primary-custom btn-create-node">Create Node</button>
+            <button class="btn btn-primary-custom btn-attach-refs">Attach References</button>
+            <div class="dropdown">
+                <button class="form-control btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Inference Rule
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#"> Reiteration </a></li>
+                    <li><a href="#">Or Intro </a></li>
+                    <li><a href="#">Or Elim </a></li>
+                    <li><a href="#">And Intro </a></li>
+                    <li><a href="#">And Elim </a></li>
+                    <li><a href="#">Not Intro </a></li>
+                    <li><a href="#">Not Elim </a></li>
+                    <li><a href="#">Contradiction Intro </a></li>
+                    <li><a href="#">Contradiction Elim </a></li>
+                    <li><a href="#">Implication Intro </a></li>
+                    <li><a href="#">Implication Elim </a></li>
+                    <li><a href="#">Biconditional Intro </a></li>
+                    <li><a href="#">Biconditional Elim </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+   <!-- <div class="container">
+     <div>
+
+     </div>
+ </div> -->
 
 
 
@@ -61,7 +56,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
             crossorigin="anonymous"></script>
-    <script src="./js/diagram.js"></script>
     <script src="./js/control.js"></script>
 </body>
 </html>

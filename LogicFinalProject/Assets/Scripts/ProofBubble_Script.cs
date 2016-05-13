@@ -24,6 +24,7 @@ public class ProofBubble_Script : MonoBehaviour {
 	Color normal_color;
 	Color active;
 	Color verified;
+	Color wrong;
 	Color subproof;
 
 	//other variables
@@ -42,6 +43,7 @@ public class ProofBubble_Script : MonoBehaviour {
 		active = new Color32(93, 131, 255,255);
 		verified = new Color32(14, 191, 1,255);
 		subproof = new Color32(215, 215, 215,255);
+		wrong = new Color32(244,77,77,255);
 	}
 	
 	// Update is called once per frame
@@ -98,14 +100,14 @@ public class ProofBubble_Script : MonoBehaviour {
 		if(request.error == null)
 		{
 			string s = request.text;
-			Debug.Log(s);
 			if(s.Contains("true"))
 			{
 				gameObject.GetComponent<SpriteRenderer>().color = verified;
 			}
-		}
-		else{
-			Debug.Log(request.error);
+			else
+			{
+				gameObject.GetComponent<SpriteRenderer>().color = wrong;			
+			}
 		}
 	}
 

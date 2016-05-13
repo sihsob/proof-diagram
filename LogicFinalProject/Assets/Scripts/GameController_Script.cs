@@ -217,7 +217,10 @@ public class GameController_Script : MonoBehaviour {
 
 	public void verify()
 	{
-		activeNode.GetComponent<ProofBubble_Script>().toJson();
+		if(activeNode != null)
+		{
+			activeNode.GetComponent<ProofBubble_Script>().toJson();
+		}
 	}
 
 	public void nextStep()
@@ -251,6 +254,11 @@ public class GameController_Script : MonoBehaviour {
 		currentSubproof = 0;
 		mainLabelCount = 0;
 		activeAddarrows.SetActive(false);
+	}
+
+	public void quitGame()
+	{
+		Application.Quit();
 	}
 
 	void resizeSubproof(GameObject target)

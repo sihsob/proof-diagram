@@ -3,3 +3,32 @@
     height:150px;
     background-color: #DAE4E4;
 }
+
+.custom-navbar {
+    background-color: #ececec;
+}
+
+#btn-create-node,
+#btn-create-node:focus {
+    border-radius: 5px;
+    float: right;
+    background-color: #ececec;
+    text-shadow: none;
+    border: 1px solid #6a3599;
+}
+
+#btn-create-node:hover {
+    color: #fff;
+    border-radius: 5px;
+    background-color: #6a3599;
+    text-shadow: none;
+    border: 1px solid #ececec;
+}
+
+#btn-create-node:active:focus {
+    color: #fff;
+    border-radius: 5px;
+    background-color: #552182;
+    text-shadow: none;
+    border: 1px solid #ececec;
+}

@@ -261,6 +261,11 @@ public class GameController_Script : MonoBehaviour {
 		Application.Quit();
 	}
 
+	public void infoScreen()
+	{
+		gameObject.GetComponent<Information_Script>().makePaused();
+	}
+
 	void resizeSubproof(GameObject target)
 	{
 		target.transform.localScale = new Vector3(1.5f*target.transform.localScale.x,1.5f*target.transform.localScale.y);

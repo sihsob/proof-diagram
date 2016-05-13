@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\CameraDrag_Script.cs" />
      <Compile Include="Assets\Scripts\Display_Script.cs" />
      <Compile Include="Assets\Scripts\GameController_Script.cs" />
+     <Compile Include="Assets\Scripts\Information_Script.cs" />
      <Compile Include="Assets\Scripts\Input_Script.cs" />
      <Compile Include="Assets\Scripts\ProofBubble_Script.cs" />
      <Compile Include="Assets\Scripts\SubproofDisplay_Script.cs" />

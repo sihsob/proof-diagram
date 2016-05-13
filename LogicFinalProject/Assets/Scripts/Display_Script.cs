@@ -24,7 +24,7 @@ public class Display_Script : MonoBehaviour {
 
 		entire_label.text = "Number: " + label.text;
 		entire_sentence.text = "Sentence: " + sentence.text;
-		entire_justification.text = "Justification" + gameObject.GetComponent<ProofBubble_Script>().getJustification();
+		entire_justification.text = "Justification: " + gameObject.GetComponent<ProofBubble_Script>().getJustification();
 
 		hoverCanvas.SetActive(false);
 	}

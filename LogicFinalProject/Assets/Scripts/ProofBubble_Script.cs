@@ -79,7 +79,6 @@ public class ProofBubble_Script : MonoBehaviour {
 	public void toJson()
 	{
 		string json = JsonUtility.ToJson(this);
-		Debug.Log(json);
 		StartCoroutine("connect", json);
 	}
 
@@ -99,10 +98,14 @@ public class ProofBubble_Script : MonoBehaviour {
 		if(request.error == null)
 		{
 			string s = request.text;
+			Debug.Log(s);
 			if(s.Contains("true"))
 			{
 				gameObject.GetComponent<SpriteRenderer>().color = verified;
 			}
+		}
+		else{
+			Debug.Log(request.error);
 		}
 	}
 

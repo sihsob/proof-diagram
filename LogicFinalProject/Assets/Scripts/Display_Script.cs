@@ -22,9 +22,9 @@ public class Display_Script : MonoBehaviour {
 		label.fontSize = 25;
 		sentence.fontSize = 25;
 
-		entire_label.text = label.text;
-		entire_sentence.text = sentence.text;
-		entire_justification.text = gameObject.GetComponent<ProofBubble_Script>().getJustification();
+		entire_label.text = "Number: " + label.text;
+		entire_sentence.text = "Sentence: " + sentence.text;
+		entire_justification.text = "Justification: " + gameObject.GetComponent<ProofBubble_Script>().getJustification();
 
 		hoverCanvas.SetActive(false);
 	}

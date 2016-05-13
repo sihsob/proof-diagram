@@ -20,11 +20,12 @@ public class ProofBubble_Script : MonoBehaviour {
 	Vector3 offset;
 	bool isSubproof = false;
 
-	//material variables
-	Material normal;
-	Material verified;
-	Material active;
-	Material subproof;
+	//appearance variables
+	Color normal_color;
+	Color active;
+	Color verified;
+	Color wrong;
+	Color subproof;
 
 	//other variables
 	GameController_Script gc;
@@ -37,10 +38,12 @@ public class ProofBubble_Script : MonoBehaviour {
 		gc = GameObject.Find("GameController").GetComponent<GameController_Script>();
 		reference = new List<string>();
 
-		normal = Resources.Load("Normal_mat", typeof(Material)) as Material;
-		verified = Resources.Load("Verified_mat", typeof(Material)) as Material;
-		active = Resources.Load("Active_mat", typeof(Material)) as Material;
-		subproof = Resources.Load("SubProof_mat", typeof(Material)) as Material;
+		//define the colors
+		normal_color = new Color32(195, 139, 227,255);
+		active = new Color32(93, 131, 255,255);
+		verified = new Color32(14, 191, 1,255);
+		subproof = new Color32(215, 215, 215,255);
+		wrong = new Color32(244,77,77,255);
 	}
 	
 	// Update is called once per frame
@@ -52,20 +55,18 @@ public class ProofBubble_Script : MonoBehaviour {
 	//when mouse button is pressed down
 	void OnMouseDown()
 	{
-		if(!gc.getAddArrowMode())
+		if(Input.GetMouseButtonDown(0))
 		{
-			if(Input.GetMouseButtonDown(0))
-			{
-				GetComponent<Renderer>().material = active;
-				gc.setActiveNode(gameObject);
-				gc.clearReasons();
-			}
-			else if(Input.GetMouseButtonDown(1))
-			{
-				gc.addReasons(gameObject);
-			}			
+			gc.setActiveNode(gameObject);
+			gc.clearReasons();
+			//gameObject.GetComponent<SpriteRenderer>().color = active;
 		}
-		else
+		else if(Input.GetMouseButtonDown(1))
+		{
+			gc.addReasons(gameObject);
+		}			
+	
+		if(gc.getAddArrowMode())
 		{
 			if(Input.GetMouseButtonDown(0))
 			{
@@ -80,14 +81,13 @@ public class ProofBubble_Script : MonoBehaviour {
 	public void toJson()
 	{
 		string json = JsonUtility.ToJson(this);
-		Debug.Log(json);
-		//StartCoroutine("connect", json);
+		StartCoroutine("connect", json);
 	}
 
 	//send info to verification program & get info back
 	IEnumerator connect(string js)
 	{
-		string url = "http://129.161.89.167:5000";
+		string url = "https://tpiazza.me/proof";
 
 		Dictionary<string, string> d= new Dictionary<string, string>();
 		d.Add("Content-Type", "application/json");
@@ -102,8 +102,11 @@ public class ProofBubble_Script : MonoBehaviour {
 			string s = request.text;
 			if(s.Contains("true"))
 			{
-				Debug.Log("yay");
-				GetComponent<Renderer>().material = verified;
+				gameObject.GetComponent<SpriteRenderer>().color = verified;
+			}
+			else
+			{
+				gameObject.GetComponent<SpriteRenderer>().color = wrong;			
 			}
 		}
 	}
@@ -124,7 +127,6 @@ public class ProofBubble_Script : MonoBehaviour {
 	public void setJustification(string s)
 	{
 		justification = s;
-		Debug.Log("Justification: " + justification);
 	}
 
 	public void addReference(string r)
@@ -163,25 +165,20 @@ public class ProofBubble_Script : MonoBehaviour {
 	}
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------------------------
-	public void deactivatedMat()
+	public void activatedColor()
+	{
+		gameObject.GetComponent<SpriteRenderer>().color = active;
+	}
+
+	public void deactivate()
 	{
 		if(isSubproof)
 		{
-			GetComponent<Renderer>().material = subproof;
+			gameObject.GetComponent<SpriteRenderer>().color = subproof;
 		}
 		else
 		{
-			GetComponent<Renderer>().material = normal;
-		}
-	}
-
-	//functions for testing
-	public void printReferences()
-	{
-		Debug.Log("For node: " + label);
-		foreach(string s in reference)
-		{
-			Debug.Log(s);
+			gameObject.GetComponent<SpriteRenderer>().color = normal_color;
 		}
 	}
 }

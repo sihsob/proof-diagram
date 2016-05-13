@@ -1,0 +1,44 @@
+-Clicking on a proof bubble or subproof square will select said object
+ (it will turn blue)
+-hovering over a proof bubble will show all the info for it
+ (label, sentence, justification)
+-you can scroll in and out with a mouse scroll wheel
+-you can drag the camera around
+
+Add Step:
+-adds a proof bubble to the graph
+-requires you to enter a sentence and choose a justification from
+ a drop-down menu
+
+Verify Step:
+-verifies if the step is correct (will turn green if correct, red
+ if incorrect)
+-requires you to select a node in order to verify
+-there must be an arrow between the node that you want to verify and the
+ reason(s) for it
+-you need to exit add arrow mode in order to verify a step
+
+Add Arrows
+-will start and turn off "add arrow mode" where you can add an arrow between
+ two nodes (either between two proof bubbles or between a proof bubble and a
+  subproof bubble)
+ -a green box will be next to the button while in add arrow mode
+-in order to add the arrow click on (in this order - elsewise the arrows get
+ messed up)
+    * the proof/subproof node that the arrow should start at
+    * the proof/subproof node that the arrow should end at
+    * then hit the 'A' key on the keyboard
+
+Start Subproof
+-click to start "subproof mode"
+-a purple box will be next to the button while in subproof mode
+-subproof mode basically makes a subproof and allows you to add
+ steps to it
+
+End Subproof
+
+Restart
+-clears the entire graph (can use if you make a mistake)
+
+Quit
+-exits the application

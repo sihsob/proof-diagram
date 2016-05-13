@@ -18,6 +18,7 @@ For more information: https://en.wikipedia.org/wiki/Argument_map or http://www.c
 6. Restart: Clears the entire graph.  Unfortunately undoing one step at a time does not work at the moment.
 7. Quit: Exits the application.
 8. Scroll wheel will zoom in and out.
+9. Right click and drag to move around (use a mouse).
 
 ### Future Developement
 The plan is to port the interface from unity over to a web front-end using PaperJS for the drawing and bootstrap for the overall interface.  Hopefully this will allow us to fully implement features we do not have right now, like nested subproofs, undoing, and dragging nodes around.  We also plan to improve the proof verfication process to make it more flexible and usable.  We also hope to add a save/import and load option.
